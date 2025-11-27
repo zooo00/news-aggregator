@@ -149,6 +149,10 @@ pla unit 61398
 lazarus group
 lazarus
 kimsuky
+akira
+akira ransomware
+qilin
+qilin ransomware
 equation group
 sandworm
 sandworm team

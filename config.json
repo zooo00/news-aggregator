@@ -155,6 +155,32 @@
         "timestamp": "time, .published, [class*='date']",
         "ingress": ".entry-content p:first-of-type, article p:first-of-type"
       }
+    },
+    {
+      "name": "Dark Reading",
+      "url": "https://www.darkreading.com/",
+      "category": "international",
+      "rss_url": "https://www.darkreading.com/rss.xml",
+      "selectors": {
+        "articles": "article, .post, [class*='entry']",
+        "title": "h2, h3, .entry-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .published, [class*='date']",
+        "ingress": "p.lead, .entry-content p:first-of-type, article p:first-of-type"
+      }
+    },
+    {
+      "name": "RansomLook",
+      "url": "https://www.ransomlook.io/",
+      "category": "international",
+      "rss_url": "https://www.ransomlook.io/rss.xml",
+      "selectors": {
+        "articles": "article, .post, [class*='entry']",
+        "title": "h2, h3, .entry-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .published, [class*='date']",
+        "ingress": "p.lead, .entry-content p:first-of-type, article p:first-of-type"
+      }
     }
   ],
   "update_interval_minutes": 30
