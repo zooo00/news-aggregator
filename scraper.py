@@ -6,6 +6,11 @@ import re
 from datetime import datetime
 from dateutil import parser as date_parser
 import xml.etree.ElementTree as ET
+import os
+
+# Cache for keywords with file modification time
+_keywords_cache = {"keywords": None, "apt_keywords": None, "mtime": None}
+_keywords_file = "keywords.txt"
 
 
 def load_config():
@@ -14,19 +19,49 @@ def load_config():
         return json.load(f)
 
 
+def _check_keywords_cache():
+    """Check if keywords cache is valid or needs reload"""
+    try:
+        current_mtime = os.path.getmtime(_keywords_file)
+        if (
+            _keywords_cache["mtime"] is None
+            or current_mtime != _keywords_cache["mtime"]
+        ):
+            # File changed, need to reload
+            return False
+        return True
+    except Exception:
+        return False
+
+
 def load_keywords():
-    """Load keywords from keywords.txt"""
-    with open("keywords.txt", "r") as f:
-        return [
+    """Load keywords from keywords.txt (with hot-reload on file change)"""
+    if _check_keywords_cache() and _keywords_cache["keywords"] is not None:
+        return _keywords_cache["keywords"]
+
+    # Reload keywords
+    with open(_keywords_file, "r") as f:
+        keywords = [
             line.strip().lower()
             for line in f
             if line.strip() and not line.strip().startswith("#")
         ]
 
+    # Update cache
+    _keywords_cache["keywords"] = keywords
+    _keywords_cache["mtime"] = os.path.getmtime(_keywords_file)
+
+    print(f"✓ Reloaded {len(keywords)} keywords from {_keywords_file}")
+    return keywords
+
 
 def load_apt_keywords():
-    """Load APT-specific keywords from keywords.txt"""
-    with open("keywords.txt", "r") as f:
+    """Load APT-specific keywords from keywords.txt (with hot-reload on file change)"""
+    if _check_keywords_cache() and _keywords_cache["apt_keywords"] is not None:
+        return _keywords_cache["apt_keywords"]
+
+    # Reload APT keywords
+    with open(_keywords_file, "r") as f:
         lines = f.readlines()
         apt_section = False
         apt_keywords = []
@@ -40,7 +75,13 @@ def load_apt_keywords():
                     break
                 if line and not line.startswith("#"):
                     apt_keywords.append(line.lower())
-        return apt_keywords
+
+    # Update cache
+    _keywords_cache["apt_keywords"] = apt_keywords
+    _keywords_cache["mtime"] = os.path.getmtime(_keywords_file)
+
+    print(f"✓ Reloaded {len(apt_keywords)} APT keywords from {_keywords_file}")
+    return apt_keywords
 
 
 def match_keywords(text: str, keywords: List[str]) -> bool:
