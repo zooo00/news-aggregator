@@ -128,6 +128,13 @@ def index():
     # APT articles appear in both their original category AND the APT tab
     # EXCEPT for apt_only category which only appears in APT tab
     apt_articles = [a for a in articles if a.get("is_apt")]
+
+    # Sort APT articles: Swedish references first, then others
+    # Within each group, maintain timestamp order
+    apt_swedish = [a for a in apt_articles if a.get("is_swedish_reference")]
+    apt_other = [a for a in apt_articles if not a.get("is_swedish_reference")]
+    apt_articles = apt_swedish + apt_other
+
     swedish_articles = [
         a for a in articles
         if a.get("category") == "swedish"
@@ -142,6 +149,8 @@ def index():
         swedish_articles=swedish_articles,
         international_articles=international_articles,
         apt_articles=apt_articles,
+        apt_swedish_count=len(apt_swedish),
+        apt_other_count=len(apt_other),
         last_update=updated,
         total_count=len(articles),
         swedish_count=len(swedish_articles),

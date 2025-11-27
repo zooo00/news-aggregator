@@ -304,6 +304,7 @@
             margin: 2rem 0;
             text-align: center;
             position: relative;
+            grid-column: 1 / -1;
         }
 
         .articles-divider::before {
@@ -456,6 +457,11 @@
                 {% if apt_articles %}
                     {% for article in apt_articles %}
                     {{ render_article_card(article) }}
+                    {% if loop.index == apt_swedish_count and apt_other_count > 0 %}
+                    <div class="articles-divider">
+                        <span class="divider-text">🌍 International Incidents</span>
+                    </div>
+                    {% endif %}
                     {% endfor %}
                 {% else %}
                     <div class="no-articles">
