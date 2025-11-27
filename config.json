@@ -142,6 +142,19 @@
         "timestamp": "time, .time_stamp, [class*='date']",
         "ingress": "#body p:first-of-type, article p:first-of-type"
       }
+    },
+    {
+      "name": "The Hacker News",
+      "url": "https://thehackernews.com/",
+      "category": "international",
+      "rss_url": "https://thehackernews.com/feeds/posts/default",
+      "selectors": {
+        "articles": "article, .post, [class*='entry']",
+        "title": "h2, h3, .entry-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .published, [class*='date']",
+        "ingress": ".entry-content p:first-of-type, article p:first-of-type"
+      }
     }
   ],
   "update_interval_minutes": 30
