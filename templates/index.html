@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Feed Aggregator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-header: #2c3e50;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-header: #ffffff;
+            --border-color: rgba(0,0,0,0.1);
+            --shadow: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-hover: 0 4px 8px rgba(0,0,0,0.15);
+            --badge-bg: #ecf0f1;
+            --badge-text: #2c3e50;
+            --badge-hover: #d5dbdb;
+            --accent: #3498db;
+            --accent-hover: #2980b9;
+            --tab-border: #ddd;
+        }
+
+        body.dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-header: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --text-header: #ffffff;
+            --border-color: rgba(255,255,255,0.1);
+            --shadow: 0 2px 4px rgba(0,0,0,0.3);
+            --shadow-hover: 0 4px 8px rgba(0,0,0,0.4);
+            --badge-bg: #3a3a3a;
+            --badge-text: #e0e0e0;
+            --badge-hover: #4a4a4a;
+            --accent: #4a9eff;
+            --accent-hover: #3a8eef;
+            --tab-border: #444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .header {
+            background: var(--bg-header);
+            color: var(--text-header);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .refresh-btn, .theme-toggle {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .refresh-btn:hover, .theme-toggle:hover {
+            background: var(--accent-hover);
+        }
+
+        .theme-toggle {
+            padding: 0.5rem 0.75rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--tab-border);
+            margin-bottom: 2rem;
+            gap: 0;
+        }
+
+        .tab {
+            background: transparent;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+            top: 2px;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .articles-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .article-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid var(--border-color);
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .article-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .article-title a:hover {
+            color: var(--accent);
+        }
+
+        .article-summary {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .article-ingress {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .article-timestamp {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .article-origin {
+            display: inline-block;
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .article-origin:hover {
+            background: var(--badge-hover);
+        }
+
+        .no-articles {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .no-articles h2 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .highlight {
+            background-color: rgba(255, 235, 59, 0.25);
+            color: inherit;
+            padding: 0.1rem 0.2rem;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+
+        body.dark-mode .highlight {
+            background-color: rgba(253, 216, 53, 0.2);
+            color: inherit;
+        }
+
+        /* New article styles */
+        .new-article {
+            border-left: 4px solid #4caf50;
+            position: relative;
+        }
+
+        .new-article::before {
+            content: 'NEW';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #4caf50;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .new-badge {
+            background: #4caf50;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .articles-divider {
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .articles-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .articles-divider span {
+            background: var(--bg-primary);
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mark-seen-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .mark-seen-btn:hover {
+            background: #45a049;
+        }
+
+        .mark-seen-btn:disabled {
+            background: var(--badge-bg);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+    </style>
+    <script>
+        // Load theme immediately to prevent flash
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark-mode-loading');
+        }
+    </script>
+</head>
+<body>
+    <script>
+        // Apply theme to body immediately
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+    <div class="header">
+        <h1>News Feed Aggregator</h1>
+        <div class="header-info">
+            <div>
+                <strong>{{ total_count }}</strong> articles found
+                (Swedish: {{ swedish_count }}, International: {{ international_count }}, APT: {{ apt_count }})
+                {% if last_update %}
+                | Last updated: {{ last_update.strftime('%Y-%m-%d %H:%M:%S') }}
+                {% endif %}
+            </div>
+            <div class="header-controls">
+                <button class="mark-seen-btn" onclick="markAllAsSeen()">Mark All as Seen</button>
+                <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+                <button class="refresh-btn" onclick="refreshArticles()">Refresh Now</button>
+            </div>
+        </div>
+    </div>
+
+    {% macro render_article_card(article) %}
+    <div class="article-card">
+        <div class="article-title">
+            <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">
+                {{ article.title_highlighted|safe }}
+            </a>
+        </div>
+        {% if article.ingress %}
+        <div class="article-ingress">
+            {{ article.ingress_highlighted|safe }}
+        </div>
+        {% elif article.summary %}
+        <div class="article-summary">
+            {{ article.summary_highlighted|safe }}
+        </div>
+        {% endif %}
+        <div class="article-meta">
+            {% if article.formatted_timestamp %}
+            <span class="article-timestamp">{{ article.formatted_timestamp }}</span>
+            {% endif %}
+            <a href="{{ article.origin_url }}" class="article-origin" target="_blank" rel="noopener noreferrer">
+                {{ article.domain if article.domain else article.origin }}
+            </a>
+        </div>
+    </div>
+    {% endmacro %}
+
+    <div class="container">
+        {% if swedish_articles or international_articles or apt_articles %}
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('swedish')">Swedish ({{ swedish_count }})</button>
+            <button class="tab" onclick="switchTab('international')">International ({{ international_count }})</button>
+            <button class="tab" onclick="switchTab('apt')">APT Groups ({{ apt_count }})</button>
+        </div>
+
+        <!-- Swedish Tab Content -->
+        <div id="swedish-tab" class="tab-content active">
+            <div class="articles-grid">
+                {% if swedish_articles %}
+                    {% for article in swedish_articles %}
+                    {{ render_article_card(article) }}
+                    {% endfor %}
+                {% else %}
+                    <div class="no-articles">
+                        <h2>No Swedish articles found</h2>
+                        <p>Try adjusting your keywords or adding more news sources</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- International Tab Content -->
+        <div id="international-tab" class="tab-content">
+            <div class="articles-grid">
+                {% if international_articles %}
+                    {% for article in international_articles %}
+                    {{ render_article_card(article) }}
+                    {% endfor %}
+                {% else %}
+                    <div class="no-articles">
+                        <h2>No international articles found</h2>
+                        <p>Try adjusting your keywords or adding more news sources</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- APT Tab Content -->
+        <div id="apt-tab" class="tab-content">
+            <div class="articles-grid">
+                {% if apt_articles %}
+                    {% for article in apt_articles %}
+                    {{ render_article_card(article) }}
+                    {% endfor %}
+                {% else %}
+                    <div class="no-articles">
+                        <h2>No APT-related articles found</h2>
+                        <p>Articles mentioning Advanced Persistent Threat groups will appear here</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <div class="no-articles">
+            <h2>No articles found</h2>
+            <p>Try adjusting your keywords or adding more news sources to config.json</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Persistency and new article tracking
+        const SEEN_ARTICLES_KEY = 'seenArticles';
+        const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+        function getSeenArticles() {
+            const seen = localStorage.getItem(SEEN_ARTICLES_KEY);
+            return seen ? JSON.parse(seen) : [];
+        }
+
+        function saveSeenArticles(articleLinks) {
+            localStorage.setItem(SEEN_ARTICLES_KEY, JSON.stringify(articleLinks));
+        }
+
+        function getCurrentArticleLinks() {
+            const links = [];
+            document.querySelectorAll('.article-card a[href]').forEach(link => {
+                if (!link.classList.contains('article-origin')) {
+                    links.push(link.href);
+                }
+            });
+            return links;
+        }
+
+        function markNewArticles() {
+            const seenArticles = getSeenArticles();
+            const currentLinks = getCurrentArticleLinks();
+            let newCount = { swedish: 0, international: 0, apt: 0 };
+
+            document.querySelectorAll('.article-card').forEach(card => {
+                const link = card.querySelector('.article-title a');
+                if (link && !seenArticles.includes(link.href)) {
+                    card.classList.add('new-article');
+
+                    // Count new articles by tab
+                    const tab = card.closest('.tab-content');
+                    if (tab) {
+                        if (tab.id === 'swedish-tab') newCount.swedish++;
+                        if (tab.id === 'international-tab') newCount.international++;
+                        if (tab.id === 'apt-tab') newCount.apt++;
+                    }
+                }
+            });
+
+            // Update tab badges
+            updateTabBadges(newCount);
+
+            // Add dividers between new and old articles
+            addNewOldDividers();
+
+            return newCount;
+        }
+
+        function updateTabBadges(newCount) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                const text = tab.textContent;
+                const badge = tab.querySelector('.new-badge');
+
+                let count = 0;
+                if (text.includes('Swedish')) count = newCount.swedish;
+                if (text.includes('International')) count = newCount.international;
+                if (text.includes('APT')) count = newCount.apt;
+
+                if (badge) badge.remove();
+
+                if (count > 0) {
+                    const newBadge = document.createElement('span');
+                    newBadge.className = 'new-badge';
+                    newBadge.textContent = `${count} new`;
+                    tab.appendChild(newBadge);
+                }
+            });
+        }
+
+        function addNewOldDividers() {
+            document.querySelectorAll('.tab-content').forEach(tabContent => {
+                const cards = Array.from(tabContent.querySelectorAll('.article-card'));
+                let dividerAdded = false;
+
+                for (let i = 0; i < cards.length; i++) {
+                    const card = cards[i];
+                    const nextCard = cards[i + 1];
+
+                    // Remove existing divider if present
+                    const existingDivider = card.nextElementSibling;
+                    if (existingDivider && existingDivider.classList.contains('articles-divider')) {
+                        existingDivider.remove();
+                    }
+
+                    // Add divider between new and old articles
+                    if (!dividerAdded && card.classList.contains('new-article') && nextCard && !nextCard.classList.contains('new-article')) {
+                        const divider = document.createElement('div');
+                        divider.className = 'articles-divider';
+                        divider.innerHTML = '<span>Previously seen</span>';
+                        card.after(divider);
+                        dividerAdded = true;
+                    }
+                }
+            });
+        }
+
+        function markAllAsSeen() {
+            const currentLinks = getCurrentArticleLinks();
+            saveSeenArticles(currentLinks);
+
+            // Remove new-article class
+            document.querySelectorAll('.new-article').forEach(card => {
+                card.classList.remove('new-article');
+            });
+
+            // Remove badges
+            document.querySelectorAll('.new-badge').forEach(badge => badge.remove());
+
+            // Remove dividers
+            document.querySelectorAll('.articles-divider').forEach(divider => divider.remove());
+        }
+
+        async function checkForNewArticles() {
+            try {
+                const response = await fetch('/api/articles');
+                const data = await response.json();
+
+                const seenArticles = getSeenArticles();
+                const currentPageLinks = getCurrentArticleLinks();
+                const apiLinks = data.articles.map(a => a.link);
+
+                // Check if there are new articles not in seen list and not on current page
+                const hasNewArticles = apiLinks.some(link =>
+                    !seenArticles.includes(link) && !currentPageLinks.includes(link)
+                );
+
+                if (hasNewArticles) {
+                    console.log('New articles detected, reloading...');
+                    location.reload();
+                }
+            } catch (error) {
+                console.error('Error checking for new articles:', error);
+            }
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Set active tab
+            event.target.classList.add('active');
+
+            // Save preference
+            localStorage.setItem('activeTab', tabName);
+        }
+
+        // Load saved tab preference
+        const savedTab = localStorage.getItem('activeTab');
+        if (savedTab && document.getElementById(savedTab + '-tab')) {
+            switchTab(savedTab);
+            // Set the correct tab button as active
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                if (tab.textContent.toLowerCase().includes(savedTab)) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+        }
+
+        function refreshArticles() {
+            const btn = document.querySelector('.refresh-btn');
+            btn.disabled = true;
+            btn.textContent = 'Refreshing...';
+
+            fetch('/refresh')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        location.reload();
+                    } else {
+                        alert('Error refreshing: ' + data.message);
+                        btn.disabled = false;
+                        btn.textContent = 'Refresh Now';
+                    }
+                })
+                .catch(error => {
+                    alert('Error refreshing: ' + error);
+                    btn.disabled = false;
+                    btn.textContent = 'Refresh Now';
+                });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mark new articles and update UI
+            markNewArticles();
+
+            // Start periodic check for new articles
+            setInterval(checkForNewArticles, AUTO_REFRESH_INTERVAL);
+
+            console.log('Article tracking initialized. Checking every 5 minutes for new articles.');
+        });
+    </script>
+</body>
+</html>

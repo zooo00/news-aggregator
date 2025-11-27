@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.di.se)",
+      "WebFetch(domain:www.dn.se)",
+      "WebFetch(domain:www.idg.se)",
+      "WebFetch(domain:www.computersweden.se)",
+      "Bash(python test_rss.py:*)",
+      "Bash(python3:*)",
+      "Bash(timeout 30 python3:*)",
+      "Bash(requirements.txt)",
+      "Bash(cat:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

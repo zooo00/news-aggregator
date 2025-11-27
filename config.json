@@ -1,0 +1,148 @@
+{
+  "sites": [
+    {
+      "name": "Dagens Industri",
+      "url": "https://www.di.se/",
+      "category": "swedish",
+      "rss_url": "https://www.di.se/rss",
+      "selectors": {
+        "articles": "article, .article, [class*='article']",
+        "title": "h2, h3, .article-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .timestamp, [class*='date']",
+        "ingress": "p.ingress, p.preamble, p.lead, [class*='ingress'], [class*='preamble'], article p:first-of-type"
+      }
+    },
+    {
+      "name": "Dagens Nyheter",
+      "url": "https://www.dn.se/",
+      "category": "swedish",
+      "rss_url": "https://www.dn.se/rss/",
+      "selectors": {
+        "articles": "article, .article, [class*='article']",
+        "title": "h2, h3, .article-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .timestamp, [class*='date']",
+        "ingress": "p.ingress, p.preamble, p.lead, [class*='ingress'], [class*='preamble'], article p:first-of-type"
+      }
+    },
+    {
+      "name": "Computer Sweden",
+      "url": "https://www.computersweden.se/",
+      "category": "swedish",
+      "rss_url": "https://www.computersweden.se/feed",
+      "selectors": {
+        "articles": ".nativo-loading, article, [class*='post']",
+        "title": "h3, h4, a",
+        "link": "a",
+        "timestamp": "time, [class*='date']",
+        "ingress": "p.ingress, p.preamble, p.lead, [class*='ingress'], [class*='preamble'], article p:first-of-type"
+      }
+    },
+    {
+      "name": "SVT Nyheter",
+      "url": "https://www.svt.se/",
+      "category": "swedish",
+      "rss_url": "https://www.svt.se/rss.xml",
+      "selectors": {
+        "articles": "article, .article, [class*='article']",
+        "title": "h2, h3, .article-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .timestamp, [class*='date']",
+        "ingress": "p.ingress, p.preamble, p.lead, [class*='ingress'], [class*='preamble'], article p:first-of-type"
+      }
+    },
+    {
+      "name": "CERT-SE",
+      "url": "https://www.cert.se/",
+      "category": "swedish",
+      "rss_url": "https://www.cert.se/feed/atom.xml",
+      "selectors": {
+        "articles": "article, .article, [class*='article']",
+        "title": "h2, h3, .article-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .timestamp, [class*='date']",
+        "ingress": "p.ingress, p.preamble, p.lead, [class*='ingress'], [class*='preamble'], article p:first-of-type"
+      }
+    },
+    {
+      "name": "TV4 Nyheter",
+      "url": "https://www.tv4.se/",
+      "category": "swedish",
+      "rss_url": "https://www.tv4.se/rss",
+      "selectors": {
+        "articles": "article, .article, [class*='article']",
+        "title": "h2, h3, .article-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .timestamp, [class*='date']",
+        "ingress": "p.ingress, p.preamble, p.lead, [class*='ingress'], [class*='preamble'], article p:first-of-type"
+      }
+    },
+    {
+      "name": "MSB",
+      "url": "https://www.msb.se/",
+      "category": "swedish",
+      "rss_url": "https://www.msb.se/sv/rss-floden/rss-alla-nyheter-fran-msb/",
+      "selectors": {
+        "articles": "article, .article, [class*='article']",
+        "title": "h2, h3, .article-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .timestamp, [class*='date']",
+        "ingress": "p.ingress, p.preamble, p.lead, [class*='ingress'], [class*='preamble'], article p:first-of-type"
+      }
+    },
+    {
+      "name": "Ny Teknik",
+      "url": "https://www.nyteknik.se/",
+      "category": "swedish",
+      "rss_url": "https://www.nyteknik.se/?lab_viewport=rss",
+      "selectors": {
+        "articles": "article, .article, [class*='article']",
+        "title": "h2, h3, .article-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .timestamp, [class*='date']",
+        "ingress": "p.ingress, p.preamble, p.lead, [class*='ingress'], [class*='preamble'], article p:first-of-type"
+      }
+    },
+    {
+      "name": "Krebs on Security",
+      "url": "https://krebsonsecurity.com/",
+      "category": "international",
+      "rss_url": "https://krebsonsecurity.com/feed/",
+      "selectors": {
+        "articles": "article, .post, [class*='entry']",
+        "title": "h2, h3, .entry-title, [class*='headline']",
+        "link": "a",
+        "timestamp": "time, .published, [class*='date']",
+        "ingress": "p.lead, .entry-content p:first-of-type, article p:first-of-type"
+      }
+    },
+    {
+      "name": "Bleeping Computer",
+      "url": "https://www.bleepingcomputer.com/",
+      "category": "international",
+      "rss_url": "https://www.bleepingcomputer.com/feed/",
+      "selectors": {
+        "articles": "article, .bc_latest_news_text, [class*='article']",
+        "title": "h4, h2, .bc_latest_news_title",
+        "link": "a",
+        "timestamp": "time, .bc_news_date, [class*='date']",
+        "ingress": ".articleBody p:first-of-type, article p:first-of-type"
+      }
+    },
+    {
+      "name": "The Register",
+      "url": "https://www.theregister.com/",
+      "category": "international",
+      "rss_url": "https://www.theregister.com/headlines.atom",
+      "selectors": {
+        "articles": "article, .story, [class*='article']",
+        "title": "h4, h2, .headline",
+        "link": "a",
+        "timestamp": "time, .time_stamp, [class*='date']",
+        "ingress": "#body p:first-of-type, article p:first-of-type"
+      }
+    }
+  ],
+  "update_interval_minutes": 30
+}

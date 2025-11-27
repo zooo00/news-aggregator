@@ -1,0 +1,225 @@
+# Swedish Keywords
+cybersäkerhet
+cyberhot
+cyberattack
+cyberdomän
+cyberangrepp
+cyberförsvar
+cyberkrigföring
+dataintrång
+säkerhetshål
+sårbarhet
+säkerhetsuppdatering
+säkerhetsvarning
+säkerhetslucka
+it-säkerhet
+informationssäkerhet
+
+# Swedish - Attacks & Threats
+bedrägerier
+nätfiske
+nätattack
+ddos-attack
+ransomware-attack
+it-attack
+hackare
+hackerattack
+
+# Swedish - Malware
+skadlig kod
+virus
+mask
+trojansk häst
+bakdörr
+spionprogram
+utpressningstrojan
+
+# Swedish - Incidents
+läcka
+dataläcka
+intrång
+komprometterad
+säkerhetsincident
+it-incident
+
+# Swedish - Security Concepts
+kryptering
+brandvägg
+autentisering
+lösenordsstöld
+identitetsstöld
+
+# International Keywords
+cybersecurity
+cyber threat
+cyber attack
+data breach
+breach
+security vulnerability
+security flaw
+security hole
+vulnerability
+exploit
+exploitable
+
+# International - Attacks & Threats
+phishing
+spear phishing
+ransomware
+ddos
+dos attack
+supply chain attack
+apt
+advanced persistent threat
+zero-day
+zero day
+0-day
+watering hole
+
+# International - Malware
+malware
+virus
+worm
+trojan
+backdoor
+rootkit
+spyware
+adware
+keylogger
+botnet
+cryptojacking
+cryptominer
+
+# International - Attack Techniques
+sql injection
+xss
+cross-site scripting
+csrf
+rce
+remote code execution
+privilege escalation
+man-in-the-middle
+mitm
+brute force
+
+# International - Vulnerabilities
+cve
+critical vulnerability
+security patch
+patch tuesday
+unpatched
+
+# International - Incidents
+hacked
+compromised
+leaked
+data leak
+incident response
+security incident
+breached
+
+# International - Security Concepts
+firewall
+authentication
+encryption
+credential
+password breach
+identity theft
+two-factor
+2fa
+mfa
+
+# APT Groups - Nation State & Advanced Threats
+apt1
+apt28
+apt29
+apt32
+apt33
+apt34
+apt35
+apt37
+apt38
+apt39
+apt40
+apt41
+fancy bear
+cozy bear
+comment crew
+pla unit 61398
+lazarus group
+lazarus
+kimsuky
+equation group
+sandworm
+sandworm team
+turla
+carbanak
+fin7
+fin6
+fin8
+winnti
+winnti group
+dragonfly
+energetic bear
+blackenergy
+oceanslotus
+oilrig
+charming kitten
+stone panda
+hurricane panda
+comment panda
+gothic panda
+putter panda
+samurai panda
+naikon
+apt-c-23
+muddywater
+muddy water
+darkhotel
+konni
+operationstealth
+stealth falcon
+molerats
+gorgon group
+scarlet mimic
+confucius apt
+goblin panda
+emissary panda
+menupass
+menupass team
+cloud hopper
+cloudhopper
+gallmaker
+apt-c-00
+sea turtle apt
+leviathan apt
+temp.periscope
+bronze butler
+scarcruft
+group 123
+inception framework
+cobalt group
+silence group
+buhtrap
+the dukes
+sofacy
+sednit
+uroburos
+agent.btz
+pitty tiger
+ke3chang
+vixen panda
+anchor panda
+codoso
+sunspot
+sunburst
+nobelium
+hafnium
+phosphorus
+strontium
+zinc
+cerium
+thallium
+yttrium
+zirconium
+actinium
