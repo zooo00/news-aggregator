@@ -380,7 +380,7 @@
         </div>
     </div>
 
-    {% macro render_article_card(article) %}
+    {% macro render_article_card(article, show_flag=False) %}
     <div class="article-card">
         <div class="article-meta-top">
             {% if article.formatted_timestamp %}
@@ -394,7 +394,7 @@
             <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">
                 {{ article.title_highlighted|safe }}
             </a>
-            {% if article.is_swedish_reference %}
+            {% if show_flag and article.is_swedish_reference %}
             <span class="swedish-flag" title="Swedish reference">🇸🇪</span>
             {% endif %}
         </div>
@@ -456,7 +456,7 @@
             <div class="articles-grid">
                 {% if apt_articles %}
                     {% for article in apt_articles %}
-                    {{ render_article_card(article) }}
+                    {{ render_article_card(article, show_flag=True) }}
                     {% if loop.index == apt_swedish_count and apt_other_count > 0 %}
                     <div class="articles-divider">
                         <span class="divider-text">🌍 International Incidents</span>
