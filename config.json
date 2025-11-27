@@ -170,10 +170,10 @@
       }
     },
     {
-      "name": "RansomLook",
-      "url": "https://www.ransomlook.io/",
+      "name": "Ransomware.live",
+      "url": "https://ransomware.live/",
       "category": "international",
-      "rss_url": "https://www.ransomlook.io/rss.xml",
+      "rss_url": "https://ransomware.live/rss",
       "selectors": {
         "articles": "article, .post, [class*='entry']",
         "title": "h2, h3, .entry-title, [class*='headline']",
