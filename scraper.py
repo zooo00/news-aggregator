@@ -96,6 +96,37 @@ def match_keywords(text: str, keywords: List[str]) -> bool:
     return False
 
 
+def detect_swedish_reference(text: str) -> bool:
+    """Detect if article mentions Swedish references (companies, cities, country)"""
+    text_lower = text.lower()
+
+    # Swedish indicators
+    swedish_keywords = [
+        # Country names
+        "sweden", "sverige", "swedish",
+        # Major cities
+        "stockholm", "göteborg", "gothenburg", "malmö", "malmo", "uppsala", "västerås", "vasteras",
+        "örebro", "orebro", "linköping", "linkoping", "helsingborg", "jönköping", "jonkoping",
+        "norrköping", "norrkoping", "lund", "umeå", "umea", "gävle", "gavle", "borås", "boras",
+        # Swedish domains
+        ".se",
+        # Common Swedish companies/organizations
+        "volvo", "ericsson", "ikea", "h&m", "spotify", "klarna", "skanska", "sca", "astrazeneca",
+        "nordea", "seb bank", "swedbank", "handelsbanken", "telia", "telenor", "scania",
+        # Government/Organizations
+        "swedish government", "regeringen", "försvarsmakten", "forsvaret", "polisen",
+        "msb", "cert-se", "säpo", "sapo", "försäkringskassan", "forsakringskassan",
+        "skatteverket", "arbetsförmedlingen", "arbetsformedlingen",
+    ]
+
+    for keyword in swedish_keywords:
+        pattern = r"\b" + re.escape(keyword.lower())
+        if re.search(pattern, text_lower):
+            return True
+
+    return False
+
+
 def generate_summary(text: str, max_length: int = 150) -> str:
     """Generate a short summary from text"""
     text = text.strip()
@@ -358,6 +389,10 @@ def scrape_all_sites() -> List[Dict]:
             article_text = (article["title"] + " " + article.get("ingress", "")).lower()
             if match_keywords(article_text, apt_keywords):
                 article["is_apt"] = True
+
+            # Check for Swedish references (for ransomware.live and similar APT sources)
+            if detect_swedish_reference(article["title"] + " " + article.get("ingress", "")):
+                article["is_swedish_reference"] = True
 
             filtered_articles.append(article)
 

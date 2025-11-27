@@ -185,6 +185,12 @@
             color: var(--accent);
         }
 
+        .swedish-flag {
+            margin-left: 0.5rem;
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
         .article-summary {
             color: var(--text-secondary);
             margin-bottom: 1rem;
@@ -387,6 +393,9 @@
             <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">
                 {{ article.title_highlighted|safe }}
             </a>
+            {% if article.is_swedish_reference %}
+            <span class="swedish-flag" title="Swedish reference">🇸🇪</span>
+            {% endif %}
         </div>
         {% if article.ingress %}
         <div class="article-ingress">

@@ -172,7 +172,7 @@
     {
       "name": "Ransomware.live",
       "url": "https://ransomware.live/",
-      "category": "international",
+      "category": "apt_only",
       "rss_url": "https://ransomware.live/rss",
       "selectors": {
         "articles": "article, .post, [class*='entry']",

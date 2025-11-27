@@ -126,10 +126,15 @@ def index():
 
     # Separate articles by category and APT
     # APT articles appear in both their original category AND the APT tab
+    # EXCEPT for apt_only category which only appears in APT tab
     apt_articles = [a for a in articles if a.get("is_apt")]
-    swedish_articles = [a for a in articles if a.get("category") == "swedish"]
+    swedish_articles = [
+        a for a in articles
+        if a.get("category") == "swedish"
+    ]
     international_articles = [
-        a for a in articles if a.get("category") == "international"
+        a for a in articles
+        if a.get("category") == "international"
     ]
 
     return render_template(
