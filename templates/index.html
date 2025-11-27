@@ -160,6 +160,7 @@
             box-shadow: var(--shadow);
             transition: transform 0.2s, box-shadow 0.2s;
             border: 1px solid var(--border-color);
+            position: relative;
         }
 
         .article-card:hover {
@@ -171,6 +172,7 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
+            padding-right: 130px;
         }
 
         .article-title a {
@@ -197,16 +199,19 @@
             font-style: italic;
         }
 
-        .article-meta {
+        .article-meta-top {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
             display: flex;
-            gap: 0.75rem;
-            align-items: center;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.25rem;
         }
 
         .article-timestamp {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 500;
         }
 
@@ -214,9 +219,9 @@
             display: inline-block;
             background: var(--badge-bg);
             color: var(--badge-text);
-            padding: 0.25rem 0.75rem;
+            padding: 0.25rem 0.5rem;
             border-radius: 4px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             text-decoration: none;
             transition: background 0.3s;
         }
@@ -259,6 +264,10 @@
         .new-article {
             border-left: 4px solid #4caf50;
             position: relative;
+        }
+
+        .new-article .article-meta-top {
+            top: 3.5rem;
         }
 
         .new-article::before {
@@ -366,6 +375,14 @@
 
     {% macro render_article_card(article) %}
     <div class="article-card">
+        <div class="article-meta-top">
+            {% if article.formatted_timestamp %}
+            <span class="article-timestamp">{{ article.formatted_timestamp }}</span>
+            {% endif %}
+            <a href="{{ article.origin_url }}" class="article-origin" target="_blank" rel="noopener noreferrer">
+                {{ article.domain if article.domain else article.origin }}
+            </a>
+        </div>
         <div class="article-title">
             <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">
                 {{ article.title_highlighted|safe }}
@@ -380,14 +397,6 @@
             {{ article.summary_highlighted|safe }}
         </div>
         {% endif %}
-        <div class="article-meta">
-            {% if article.formatted_timestamp %}
-            <span class="article-timestamp">{{ article.formatted_timestamp }}</span>
-            {% endif %}
-            <a href="{{ article.origin_url }}" class="article-origin" target="_blank" rel="noopener noreferrer">
-                {{ article.domain if article.domain else article.origin }}
-            </a>
-        </div>
     </div>
     {% endmacro %}
 
